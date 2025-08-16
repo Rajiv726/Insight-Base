@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../Models/userModel";
-import generateToken from "../../utils/generateToken";
+import generateToken from "../../utils/generateToken.ts";
 
 // Extend Express Request interface to include 'user'
 declare global {

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { Request, Response } from "express";
 
 export interface IUser {
   name: string;
@@ -34,7 +33,6 @@ userSchema.methods.matchPassword = async function (enteredPassword: string): Pro
 };
 
 // Create the User model
-
 
 
 const User = mongoose.model<IUser>("User", userSchema);
