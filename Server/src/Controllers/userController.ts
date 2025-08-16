@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../Models/userModel";
-import generateToken from "../../utils/generateToken.ts";
+import generateToken from "../../utils/generateToken";
 
 // Extend Express Request interface to include 'user'
 declare global {
@@ -72,3 +72,43 @@ export const getUserProfile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Update user profile
+export const updateUserProfile = async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const user = (req as any).user;
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    if (password) user.password = password;
+
+    await user.save();
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Delete user profile
+export const deleteUserProfile = async (req: Request, res: Response) => {
+  try {
+    const user = (req as any).user;
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    await User.findByIdAndDelete(user._id);
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "MERN_TS_Auth_Documents",
+    "_postman_id": "e72b2c5d-8d4b-4e42-99bb-7f0c2fd87325",
+    "description": "API Collection for Authentication + Document CRUD using TypeScript backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User - Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Rajiv\",\n    \"email\": \"rajiv@example.com\",\n    \"password\": \"Test@123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/register",
+          "host": ["{{base_url}}"],
+          "path": ["api", "users", "register"]
+        }
+      }
+    },
+    {
+      "name": "User - Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let jsonData = pm.response.json();",
+              "if (jsonData.token) {",
+              "   pm.environment.set('access_token', jsonData.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"rajiv@example.com\",\n    \"password\": \"Test@123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/login",
+          "host": ["{{base_url}}"],
+          "path": ["api", "users", "login"]
+        }
+      }
+    },
+    {
+      "name": "User - Get Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/users/profile",
+          "host": ["{{base_url}}"],
+          "path": ["api", "users", "profile"]
+        }
+      }
+    },
+    {
+      "name": "Document - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"My First Doc\",\n    \"content\": \"# Hello Markdown\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/documents",
+          "host": ["{{base_url}}"],
+          "path": ["api", "documents"]
+        }
+      }
+    },
+    {
+      "name": "Document - Get All (Admin only)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/documents",
+          "host": ["{{base_url}}"],
+          "path": ["api", "documents"]
+        }
+      }
+    },
+    {
+      "name": "Document - Get By ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/documents/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "documents", ":id"]
+        }
+      }
+    },
+    {
+      "name": "Document - Update",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Updated Doc Title\",\n    \"content\": \"# Updated Markdown\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/documents/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "documents", ":id"]
+        }
+      }
+    },
+    {
+      "name": "Document - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{access_token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/documents/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "documents", ":id"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000" },
+    { "key": "access_token", "value": "" }
+  ]
+}
